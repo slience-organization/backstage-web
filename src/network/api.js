@@ -3,13 +3,25 @@ import {request} from './request';
 
 
 //注册
-export function _register () {
+export function _register (phone,password) {
   return request ({
     url: '/user/register',
     method: 'post',
     data: {
-      phone,
-      password
+      phone: phone,
+      password: password
+    }
+  })
+}
+
+//登录
+export function _login (phone,password) {
+  return request ({
+    url: '/user/login',
+    method: 'post',
+    data: {
+      phone: phone,
+      password: password
     }
   })
 }

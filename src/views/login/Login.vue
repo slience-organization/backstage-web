@@ -24,52 +24,59 @@
 </template>
 
 <script>
-export default {
-  components:{},
-  props:{},
-  data(){
-    return {
-      loginForm: {
-        phone: '',
-        password: '',
-        code: ''
-      },
-      rules: {
-        phone: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ]
-        // code: [
-        //   { required: true, message: '请输入验证码', trigger: 'blur' },
-        //   { min: 3, max: 5, message: '长度为 5 个字符', trigger: 'blur' }
-        // ]
-      }
-    }
-  },
-  watch:{},
-  computed:{},
-  methods:{
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
+  import {_getHomeMultiData, _login} from 'network/api'
+
+  export default {
+    components:{},
+    props:{},
+    data(){
+      return {
+        loginForm: {
+          phone: '',
+          password: '',
+          code: ''
+        },
+        rules: {
+          phone: [
+            { required: true, message: '请输入手机号码', trigger: 'blur' },
+            { min: 3, message: '长度至少3个字符', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+            { min: 3, message: '长度至少3个字符', trigger: 'blur' }
+          ]
+          // code: [
+          //   { required: true, message: '请输入验证码', trigger: 'blur' },
+          //   { min: 3, max: 5, message: '长度为 5 个字符', trigger: 'blur' }
+          // ]
         }
-      });
+      }
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    }
-  },
-  created(){},
-  mounted(){}
-}
+    watch:{},
+    computed:{},
+    methods:{
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+            let {phone,password} = this.loginForm
+            
+            _login(phone,password).then(res => {
+              console.log(res)
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    created(){},
+    mounted(){}
+  }
 </script>
   
 <style lang="scss" scoped>

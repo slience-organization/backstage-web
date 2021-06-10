@@ -1,18 +1,26 @@
 <template>
-  <div class="home">
+  <div>
     首页
-    <el-button>按钮</el-button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'Home',
-  components: {
-    
-  }
+  components:{},
+  props:{},
+  data(){
+    return {
+    }
+  },
+  watch:{},
+  computed:{},
+  methods:{},
+  created(){},
+  mounted(){}
 }
 </script>
+  
+<style lang="scss" scoped>
+  
+</style>
