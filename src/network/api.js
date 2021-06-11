@@ -20,8 +20,8 @@ export function _login (phone,password) {
     url: '/user/login',
     method: 'post',
     data: {
-      phone: phone,
-      password: password
+      phone:phone,
+      password:password
     }
   })
 }

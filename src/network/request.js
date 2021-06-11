@@ -6,7 +6,7 @@ export function request (config) {
   //创建axios实例
   const instance = axios.create ({
     baseURL: 'http://localhost:9090/api',
-    timeout: 5000
+    timeout: 50000
   })
 
   //axios的拦截器

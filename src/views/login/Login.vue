@@ -9,6 +9,7 @@
           <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password"></el-input>
           </el-form-item>
+          <el-alert :title="loginErro" type="error" show-icon v-show="loginFail"></el-alert>
           <!-- <el-image src=""></el-image>
           <el-form-item label="验证码" prop="code">
             <el-input v-model="loginForm.code"></el-input>
@@ -31,6 +32,8 @@
     props:{},
     data(){
       return {
+        loginErro: '',
+        loginFail: false,
         loginForm: {
           phone: '',
           password: '',
@@ -58,11 +61,18 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            
             let {phone,password} = this.loginForm
             
             _login(phone,password).then(res => {
-              console.log(res)
+              if(res.data.code === 666) {
+                this.$router.push({
+                  name: 'Index'
+                })
+              }else {
+                this.loginErro = res.data.msg
+                this.loginFail = true
+              }
             })
           } else {
             console.log('error submit!!');
