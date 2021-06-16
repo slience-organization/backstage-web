@@ -1,13 +1,13 @@
 <template>
 
-  <div>main asdfsadfsaf</div>
+  <div>首页</div>
 
 </template>
 
 <script>
 
 export default {
-  name: 'Main',
+  name: 'Index',
   components:{
     
   },

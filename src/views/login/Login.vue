@@ -7,7 +7,7 @@
             <el-input v-model="loginForm.phone"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="loginForm.password"></el-input>
+            <el-input v-model="loginForm.password" @keyup.enter.native="submitForm('loginForm')"></el-input>
           </el-form-item>
           <el-alert :title="loginErro" type="error" show-icon v-show="loginFail"></el-alert>
           <!-- <el-image src=""></el-image>
@@ -69,6 +69,8 @@
                 this.$router.push({
                   name: 'Index'
                 })
+                this.$store.commit('addUserInfo', res.data.data.user)
+                this.$store.commit('addToken', res.data.data.token)
               }else {
                 this.loginErro = res.data.msg
                 this.loginFail = true

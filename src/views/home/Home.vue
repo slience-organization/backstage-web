@@ -9,15 +9,16 @@
       <el-header>
         <strong>后台管理系统</strong>
         <div class="header-avator">
-          <el-avatar size="medium" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+          <el-avatar size="medium" :src="userInfo.avatar"></el-avatar>
           <el-dropdown>
             <span class="el-dropdown-link">
-              下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+              {{userInfo.userName}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-              <el-dropdown-item>螺蛳粉</el-dropdown-item>
+              <router-link to="/userCenter">
+                <el-dropdown-item>修改密码</el-dropdown-item>
+              </router-link>
+              <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <el-link href="" target="">网站</el-link>
@@ -44,12 +45,23 @@
     props:{},
     data(){
       return {
+        
       }
     },
     watch:{},
-    computed:{},
-    methods:{},
-    created(){},
+    computed:{
+      userInfo() {
+        return this.$store.state.userInfo
+      }
+    },
+    methods:{
+      logout() {
+        this.$message('退出')
+      }
+    },
+    created(){
+      console.log(this.$store.state.token)
+    },
     mounted(){}
   }
 </script>
@@ -62,7 +74,6 @@
   }
   .el-aside {
     color: #333;
-    text-align: center;
     line-height: 200px;
   }
   
