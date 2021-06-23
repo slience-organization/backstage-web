@@ -27,6 +27,7 @@
       </el-header>
       
       <el-main>
+        <tabs></tabs>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -36,11 +37,13 @@
 
 <script>
   import SideMenu from 'components/navMenu/SideMenu.vue'
+  import Tabs from 'components/index/Tabs.vue'
   
   export default {
     name: 'Home',
     components:{
       SideMenu,
+      Tabs,
     },
     props:{},
     data(){
@@ -51,16 +54,21 @@
     watch:{},
     computed:{
       userInfo() {
-        return this.$store.state.userInfo
+        return sessionStorage.userInfo
       }
     },
     methods:{
       logout() {
         this.$message('退出')
+        sessionStorage.clear()
+        this.$router.replace({
+          name: '/login'
+        })
       }
     },
     created(){
-      console.log(this.$store.state.token)
+      console.log(sessionStorage.token)
+      console.log(navigator.userAgent)
     },
     mounted(){}
   }

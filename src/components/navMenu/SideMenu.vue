@@ -6,28 +6,28 @@
     background-color="#545c64"
     text-color="#fff" active-text-color="#ffd04b">
 
-    <router-link to="/index">
+    <router-link to="/sys/index">
       <el-menu-item index="0">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
     </router-link>
 
-    <el-submenu index="1">
+    <el-submenu :index="menu.name" v-for="menu in menuList" :key="menu.name">
 
       <template slot="title">
-        <i class="el-icon-s-operation"></i>
-        <span>系统管理</span>
+        <i :class="menu.icon"></i>
+        <span>{{menu.title}}</span>
       </template>
 
-      <router-link to="/user">
-        <el-menu-item index="1-1">
-          <i class="el-icon-s-custom"></i>
-          <span slot="title">用户管理</span>
+      <router-link :to="item.path" v-for="item in menu.children" :key="item.name">
+        <el-menu-item :index="item.name">
+          <i :class="item.icon"></i>
+          <span slot="title">{{item.title}}</span>
         </el-menu-item>
       </router-link>
 
-      <router-link to="/role">
+      <!-- <router-link to="/role">
         <el-menu-item index="1-2">
           <i class="el-icon-rank"></i>
           <span slot="title">角色管理</span>
@@ -39,11 +39,11 @@
           <i class="el-icon-menu"></i>
           <span slot="title">菜单管理</span>
         </el-menu-item>
-      </router-link>
+      </router-link> -->
       
     </el-submenu>
 
-    <el-submenu index="2">
+    <!-- <el-submenu index="2">
 
       <template slot="title">
         <i class="el-icon-s-tools"></i>
@@ -57,7 +57,7 @@
         </el-menu-item>
       </router-link>
 
-    </el-submenu>
+    </el-submenu> -->
 
   </el-menu>
   
@@ -68,6 +68,52 @@ export default {
   name: 'SideMenu',
   data () {
     return {
+      menuList: [
+        {
+          name: 'sysManager',//default-active
+          title: '系统管理',
+          icon: 'el-icon-s-operation',
+          path: '',
+          children: [
+            {
+              name: 'sysUser',
+              title: '用户管理',
+              icon: 'el-icon-s-custom',
+              path: '/sys/user',
+              children: []
+            },
+            {
+              name: 'sysRole',
+              title: '角色管理',
+              icon: 'el-icon-rank',
+              path: '/sys/role',
+              children: []
+            },
+            {
+              name: 'sysMenu',
+              title: '菜单管理',
+              icon: 'el-icon-menu',
+              path: '/sys/menu',
+              children: []
+            },
+          ]
+        },
+        {
+          name: 'sysTools',
+          title: '系统工具',
+          icon: 'el-icon-s-tools',
+          path: '',
+          children: [
+            {
+              name: 'sysDict',
+              title: '数据字典',
+              icon: 'el-icon-s-order',
+              path: '/sys/dict',
+              children: []
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {

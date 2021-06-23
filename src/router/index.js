@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '',
-    redirect: '/index'
+    redirect: '/sys/index'
   },
   {
     path: '/home',
@@ -16,27 +16,27 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/index',
+        path: '/sys/index',
         name: 'Index',
         component: Index
       },
       {
-        path: '/user',
+        path: '/sys/user',
         name: 'User',
         component: () => import(/* webpackChunkName: "user" */ 'components/sysMgr/User.vue')
       },
       {
-        path: '/role',
+        path: '/sys/role',
         name: 'Role',
         component: () => import(/* webpackChunkName: "role" */ 'components/sysMgr/Role.vue')
       },
       {
-        path: '/menu',
+        path: '/sys/menu',
         name: 'Menu',
         component: () => import(/* webpackChunkName: "menu" */ 'components/sysMgr/Menu.vue')
       },
       {
-        path: '/dict',
+        path: '/sys/dict',
         name: 'Dict',
         component: () => import(/* webpackChunkName: "dict" */ 'components/sysMgr/Dict.vue')
       },
@@ -60,8 +60,21 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach(function (to, from, next) {
+router.beforeEach(function (to, from, next) {
+  let token = sessionStorage.getItem("token")
   
-// })
+  if(!token){
+    if(to.path !== '/login') {
+      return next({path: '/login'})
+    }else {
+      next()
+    }
+  }else {
+    if(to.path === '/login') {
+      return next({path: '/index'})
+    }
+    next()
+  }
+})
 
 export default router

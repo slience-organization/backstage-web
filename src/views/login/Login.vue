@@ -66,11 +66,12 @@
             
             _login(phone,password).then(res => {
               if(res.data.code === 666) {
+                sessionStorage.setItem('userInfo', res.data.data.user)
+                sessionStorage.setItem('token', res.data.data.token)
                 this.$router.push({
                   name: 'Index'
                 })
-                this.$store.commit('addUserInfo', res.data.data.user)
-                this.$store.commit('addToken', res.data.data.token)
+                
               }else {
                 this.loginErro = res.data.msg
                 this.loginFail = true
