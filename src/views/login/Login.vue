@@ -39,6 +39,59 @@
           password: '',
           code: ''
         },
+        authorities: [],
+        menuList: [
+          {
+            name: 'sysManager',//default-active
+            title: '系统管理',
+            icon: 'el-icon-s-operation',
+            path: '',
+            component: '',
+            children: [
+              {
+                name: 'sysUser',
+                title: '用户管理',
+                icon: 'el-icon-s-custom',
+                path: '/sys/user',
+                component: '/sys/User',
+                children: []
+              },
+              {
+                name: 'sysRole',
+                title: '角色管理',
+                icon: 'el-icon-rank',
+                path: '/sys/role',
+                component: '/sys/Role',
+                children: []
+              },
+              {
+                name: 'sysMenu',
+                title: '菜单管理',
+                icon: 'el-icon-menu',
+                path: '/sys/menu',
+                component: '/sys/Menu',
+                children: []
+              },
+            ]
+          },
+          {
+            name: 'sysTools',
+            title: '系统工具',
+            icon: 'el-icon-s-tools',
+            path: '',
+            component: '',
+            children: [
+              {
+                name: 'sysDict',
+                title: '数据字典',
+                icon: 'el-icon-s-order',
+                path: '/sys/dict',
+                component: '/sys/Dict',
+                children: []
+              }
+            ]
+          }
+        ],
         rules: {
           phone: [
             { required: true, message: '请输入手机号码', trigger: 'blur' },
@@ -66,11 +119,16 @@
             
             _login(phone,password).then(res => {
               if(res.data.code === 666) {
+                //登录成功拿到用户信息，token
                 sessionStorage.setItem('userInfo', res.data.data.user)
                 sessionStorage.setItem('token', res.data.data.token)
+                //拿到菜单列表，权限信息，暂时写死
+                this.$store.commit('setMenuList', this.menuList)
+                this.$store.commit('setPermList', this.authorities)
                 this.$router.push({
                   name: 'Index'
                 })
+                //console.log(this.$store.state.menus.menuList)
                 
               }else {
                 this.loginErro = res.data.msg

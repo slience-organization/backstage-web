@@ -6,7 +6,7 @@
       :label="item.title"
       :name="item.name"
     >
-      {{item.content}}
+      
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -20,11 +20,9 @@ export default {
       editableTabs: [{
         title: 'Tab 1',
         name: '1',
-        content: 'Tab 1 content'
       }, {
         title: 'Tab 2',
         name: '2',
-        content: 'Tab 2 content'
       }],
       tabIndex: 2
     }
@@ -61,5 +59,7 @@ export default {
 </script>
 
 <style  scoped>
-
+ >>>  .el-tabs__nav-scroll  .el-tabs__nav  .el-tabs__item.is-active{
+  border-bottom: 2px solid #409EFF;
+}
 </style>

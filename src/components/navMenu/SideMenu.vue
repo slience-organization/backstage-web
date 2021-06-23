@@ -68,52 +68,12 @@ export default {
   name: 'SideMenu',
   data () {
     return {
-      menuList: [
-        {
-          name: 'sysManager',//default-active
-          title: '系统管理',
-          icon: 'el-icon-s-operation',
-          path: '',
-          children: [
-            {
-              name: 'sysUser',
-              title: '用户管理',
-              icon: 'el-icon-s-custom',
-              path: '/sys/user',
-              children: []
-            },
-            {
-              name: 'sysRole',
-              title: '角色管理',
-              icon: 'el-icon-rank',
-              path: '/sys/role',
-              children: []
-            },
-            {
-              name: 'sysMenu',
-              title: '菜单管理',
-              icon: 'el-icon-menu',
-              path: '/sys/menu',
-              children: []
-            },
-          ]
-        },
-        {
-          name: 'sysTools',
-          title: '系统工具',
-          icon: 'el-icon-s-tools',
-          path: '',
-          children: [
-            {
-              name: 'sysDict',
-              title: '数据字典',
-              icon: 'el-icon-s-order',
-              path: '/sys/dict',
-              children: []
-            }
-          ]
-        }
-      ]
+      
+    }
+  },
+  computed: {
+    menuList() {
+      return this.$store.state.menus.menuList
     }
   },
   methods: {
@@ -123,6 +83,9 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     }
+  },
+  created() {
+    //console.log(this.$store.state.menus.menuList)
   }
 }
 </script>
