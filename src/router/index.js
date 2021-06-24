@@ -17,27 +17,27 @@ const routes = [
     children: [
       {
         path: '/sys/index',
-        name: 'Index',
+        name: 'sysIndex',
         component: Index
       },
       {
         path: '/sys/user',
-        name: 'User',
+        name: 'sysUser',
         component: () => import(/* webpackChunkName: "user" */ 'components/sysMgr/User.vue')
       },
       {
         path: '/sys/role',
-        name: 'Role',
+        name: 'sysRole',
         component: () => import(/* webpackChunkName: "role" */ 'components/sysMgr/Role.vue')
       },
       {
         path: '/sys/menu',
-        name: 'Menu',
+        name: 'sysMenu',
         component: () => import(/* webpackChunkName: "menu" */ 'components/sysMgr/Menu.vue')
       },
       {
         path: '/sys/dict',
-        name: 'Dict',
+        name: 'sysDict',
         component: () => import(/* webpackChunkName: "dict" */ 'components/sysMgr/Dict.vue')
       },
       {
@@ -71,7 +71,7 @@ router.beforeEach(function (to, from, next) {
     }
   }else {
     if(to.path === '/login') {
-      return next({path: '/index'})
+      return next({path: '/sys/index'})
     }
     next()
   }

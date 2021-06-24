@@ -123,10 +123,11 @@
                 sessionStorage.setItem('userInfo', res.data.data.user)
                 sessionStorage.setItem('token', res.data.data.token)
                 //拿到菜单列表，权限信息，暂时写死
+                console.log(this.menuList)
                 this.$store.commit('setMenuList', this.menuList)
                 this.$store.commit('setPermList', this.authorities)
                 this.$router.push({
-                  name: 'Index'
+                  name: 'sysIndex'
                 })
                 //console.log(this.$store.state.menus.menuList)
                 

@@ -61,14 +61,16 @@
       logout() {
         this.$message('退出')
         sessionStorage.clear()
-        this.$router.replace({
-          name: '/login'
-        })
+        if(this.$router.path !== '/login') {
+          this.$router.replace({
+            name: '/login'
+          })
+        }
+        
       }
     },
     created(){
-      console.log(sessionStorage.token)
-      console.log(navigator.userAgent)
+      
     },
     mounted(){}
   }

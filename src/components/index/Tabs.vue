@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+  <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" @tab-click="clickTab">
     <el-tab-pane
       v-for="(item, index) in editableTabs"
       :key="item.name"
@@ -16,30 +16,43 @@ export default {
   name: 'Tabs',
   data() {
     return {
-      editableTabsValue: '2',
-      editableTabs: [{
-        title: 'Tab 1',
-        name: '1',
-      }, {
-        title: 'Tab 2',
-        name: '2',
-      }],
-      tabIndex: 2
+      
+    }
+  },
+  computed: {
+    editableTabsValue: {
+      get() {
+        return this.$store.state.menus.editableTabsValue
+      },
+      set(newVal) {
+        this.$store.state.menus.editableTabsValue = newVal
+      }
+      
+    },
+    editableTabs: {
+      get() {
+        return this.$store.state.menus.editableTabs
+      },
+      set(newVal) {
+        this.$store.state.menus.editableTabs = newVal
+      }
     }
   },
   methods: {
-    addTab(targetName) {
-      let newTabName = ++this.tabIndex + '';
-      this.editableTabs.push({
-        title: 'New Tab',
-        name: newTabName,
-        content: 'New Tab content'
-      });
-      this.editableTabsValue = newTabName;
+    clickTab(target) {
+      let activeName = this.editableTabsValue;
+      if(activeName === target.name) {
+        return
+      }else {
+        this.$router.push({name: target.name})
+      }
     },
     removeTab(targetName) {
       let tabs = this.editableTabs;
       let activeName = this.editableTabsValue;
+      if(targetName === 'sysIndex') {
+        return
+      }
       if (activeName === targetName) {
         tabs.forEach((tab, index) => {
           if (tab.name === targetName) {
@@ -50,9 +63,12 @@ export default {
           }
         });
       }
-      
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+      if(this.$router.name !== activeName) {
+        this.$router.push({name: activeName})
+      }
+      
     }
   }
 }
