@@ -124,6 +124,8 @@
                 sessionStorage.setItem('token', res.data.data.token)
                 //拿到菜单列表，权限信息，暂时写死
                 console.log(this.menuList)
+                //sessionStorage.setItem('menuList', this.menuList)
+                //sessionStorage.setItem('permList', this.authorities)
                 this.$store.commit('setMenuList', this.menuList)
                 this.$store.commit('setPermList', this.authorities)
                 this.$router.push({

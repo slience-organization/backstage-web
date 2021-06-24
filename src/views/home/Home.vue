@@ -108,8 +108,8 @@
   .el-main {
     background-color: #E9EEF3;
     color: #333;
-    text-align: center;
+    // text-align: center;
     // line-height: 160px;
-    padding: 0;
+    padding: 0 15px;
   }
 </style>
