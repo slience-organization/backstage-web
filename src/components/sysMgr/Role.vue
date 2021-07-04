@@ -60,7 +60,7 @@
     </el-pagination>
 
     <!-- 新增弹框 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%" :before-close="handleClose">
+    <el-dialog title="添加角色" :visible.sync="dialogVisible" width="40%" :before-close="handleClose">
       <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px" class="demo-editForm">
 
         <el-form-item label="角色名称" prop="name">
@@ -73,13 +73,6 @@
           <el-input v-model="editForm.remark"></el-input>
         </el-form-item>
         
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="editForm.status">
-            <el-radio :label=0>正常</el-radio>
-            <el-radio :label=1>禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
         <el-form-item>
           <el-button type="primary" @click="submitForm('editForm')">立即创建</el-button>
           <el-button @click="resetForm('editForm')">重置</el-button>
@@ -91,6 +84,7 @@
 </template>
 
 <script>
+import { _getAllRoles , _addRole } from 'network/api'
 export default {
   name: 'Role',
   data () {
@@ -101,7 +95,9 @@ export default {
       currentPage: 1,
       dialogVisible: false,
       editForm: {
-
+        name: '',
+        code: '',
+        remark: ''
       },
       searchForm: {
 
@@ -125,9 +121,6 @@ export default {
         ],
         code: [
           {required: true, message: '请输入唯一编码', trigger: 'blur'}
-        ],
-        status: [
-          {required: true, message:'请选择状态', trigger: 'blur'}
         ]
       },
     }
@@ -163,14 +156,35 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //添加或编辑接口
-          
+          this.$message('点解了添加')
+          _addRole(this.editForm)
         } else {
           console.log('error submit!!');
           return false;
         }
       })
+    },
+    _addRole(role) {
+      _addRole(role).then(res => {
+        //console.log(res)
+      })
+    },
+    _getAllRoles() {
+      _getAllRoles().then(res => {
+        //console.log(res)
+        if(res.data.code === 666) {
+          this.tableData = res.data.data
+        }
+      })
     }
+    
   },
+  created() {
+    this._getAllRoles()
+  },
+  mounted() {
+
+  }
 }
 </script>
 

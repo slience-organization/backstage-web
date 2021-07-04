@@ -26,3 +26,28 @@ export function _login (phone,password) {
   })
 }
 
+//获取用户
+export function _getAllUsers () {
+  return request ({
+    url: '/user/getAllUsers'
+  })
+}
+
+//添加角色
+export function _addRole (role) {
+  return request ({
+    url: '/role/addRole',
+    method: 'post',
+    data: role
+  })
+}
+
+//获取角色
+export function _getAllRoles () {
+  return request ({
+    url: '/role/getAllRoles'
+  })
+}
+
+
+

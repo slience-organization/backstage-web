@@ -78,26 +78,11 @@
 				:before-close="handleClose">
 
 			<el-form :model="editForm" :rules="editFormRules" ref="editForm">
-				<el-form-item label="用户名" prop="username" label-width="100px">
-					<el-input v-model="editForm.username" autocomplete="off"></el-input>
-					<el-alert
-							title="初始密码为888888"
-							:closable="false"
-							type="info"
-							style="line-height: 12px;"
-					></el-alert>
-				</el-form-item>
-				<el-form-item label="邮箱"  prop="email" label-width="100px">
-					<el-input v-model="editForm.email" autocomplete="off"></el-input>
-				</el-form-item>
 				<el-form-item label="手机号"  prop="phone" label-width="100px">
 					<el-input v-model="editForm.phone" autocomplete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="状态"  prop="statu" label-width="100px">
-					<el-radio-group v-model="editForm.statu">
-						<el-radio :label="0">禁用</el-radio>
-						<el-radio :label="1">正常</el-radio>
-					</el-radio-group>
+        <el-form-item label="密码" prop="password" label-width="100px">
+					<el-input v-model="editForm.password" autocomplete="off"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -129,6 +114,7 @@
 </template>
 
 <script>
+import { _getAllUsers } from 'network/api'
 export default {
   name: 'User',
   data () {
@@ -238,9 +224,18 @@ export default {
         }
       });
     },
+    _getAllUsers() {
+      _getAllUsers().then(res => {
+        console.log(res)
+        if(res.data.code === 666) {
+          this.tableData = res.data.data
+        }
+        
+      })
+    }
   },
   created() {
-
+    this._getAllUsers()
   }
 }
 </script>
