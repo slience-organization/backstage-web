@@ -115,9 +115,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             
-            let {phone,password} = this.loginForm
-            
-            _login(phone,password).then(res => {
+            _login(this.loginForm).then(res => {
               if(res.data.code === 666) {
                 //登录成功拿到用户信息，token
                 sessionStorage.setItem('userInfo', res.data.data.user)

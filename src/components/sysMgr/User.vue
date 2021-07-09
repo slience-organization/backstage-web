@@ -29,21 +29,19 @@
           <el-avatar size="small" :src="scope.row.avatar"></el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="username" label="用户名" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="code" label="角色名称" show-overflow-tooltip>
+      <el-table-column prop="phone" label="账户(手机号)" show-overflow-tooltip width="170px"></el-table-column>
+      <el-table-column prop="code" label="角色名称" show-overflow-tooltip width="170px">
         <template slot-scope="scope">
           <el-tag size="small" type="info" v-for="item in scope.row.avatar" :key="item.id">{{item.name}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="status" label="状态">
+      <el-table-column prop="status" label="状态" width="170px">
         <template slot-scope="scope">
           <el-tag size="small" v-if="scope.row.status===0" type="success">正常</el-tag>
           <el-tag size="small" v-else-if="scope.row.status===1" type="danger">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip width="170px"></el-table-column>
       <el-table-column prop="operation" label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="roleHandle(scope.row.id)">分配角色</el-button>
@@ -72,7 +70,7 @@
 
     <!--新增对话框-->
 		<el-dialog
-				title="提示"
+				title="添加用户"
 				:visible.sync="dialogVisible"
 				width="600px"
 				:before-close="handleClose">
@@ -83,6 +81,18 @@
 				</el-form-item>
         <el-form-item label="密码" prop="password" label-width="100px">
 					<el-input v-model="editForm.password" autocomplete="off"></el-input>
+				</el-form-item>
+        <el-form-item label="角色" loading prop="password" label-width="100px">
+					<el-select v-model="value" placeholder="请选择" @visible-change="getAllRoles($event)">
+            <el-option
+              v-for="item in roles"
+              :key="item.code"
+              :label="item.name"
+              :value="item.id">
+              <span style="float: left">{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.code }}</span>
+            </el-option>
+          </el-select>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -114,7 +124,7 @@
 </template>
 
 <script>
-import { _getAllUsers } from 'network/api'
+import { _getAllUsers, _addUser, _getAllRoles } from 'network/api'
 export default {
   name: 'User',
   data () {
@@ -128,7 +138,8 @@ export default {
 
       dialogVisible: false,
       editForm: {
-
+        phone: '',
+        password: ''
       },
 
       tableData: [
@@ -148,16 +159,23 @@ export default {
           status: 1
         },
       ],
-
+      roles: [{
+        code: 'Beijing',
+        name: '北京'
+      }, {
+        code: 'Shanghai',
+        name: '上海'
+      }, {
+        code: 'Nanjing',
+        name: '南京'
+      }],
+      value: '',
       editFormRules: {
-        username: [
-          {required: true, message: '请输入用户名称', trigger: 'blur'}
+        phone: [
+          {required: true, message: '请输入账户', trigger: 'blur'}
         ],
-        email: [
-          {required: true, message: '请输入邮箱', trigger: 'blur'}
-        ],
-        statu: [
-          {required: true, message: '请选择状态', trigger: 'blur'}
+        password: [
+          {required: true, message: '请输入密码', trigger: 'blur'}
         ]
       },
 
@@ -217,7 +235,13 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //添加或编辑接口
-
+          console.log(this.editForm)
+          _addUser(this.editForm).then(res => {
+            if(res.data.code === 666) {
+              this.dialogVisible = false
+              this._getAllUsers()
+            }
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -226,12 +250,20 @@ export default {
     },
     _getAllUsers() {
       _getAllUsers().then(res => {
-        console.log(res)
+        //console.log(res)
         if(res.data.code === 666) {
           this.tableData = res.data.data
         }
         
       })
+    },
+    getAllRoles(e) {//下拉框显示时获取数据
+      if(e) {
+        _getAllRoles().then(res => {
+          console.log(res.data.data)
+          this.roles = res.data.data
+        })
+      }
     }
   },
   created() {
